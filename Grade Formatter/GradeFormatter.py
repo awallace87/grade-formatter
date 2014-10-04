@@ -38,7 +38,8 @@ def scan_and_write():
       csvWriter.writeheader()
       for line in reader:
         compiledFeedback = ""
-        compiledGrade = float(line["Maximum Grade"])
+        maxGrade = float(line["Maximum Grade"])
+        compiledGrade = maxGrade
         for num in range(1, numOfQuestions + 1):
           #try:
           questionHeader = "[Question {0}]".format(num)
@@ -65,7 +66,10 @@ def scan_and_write():
             compiledFeedback += "(+{0} Marks)\n".format(bonusQuestionRewards)
           #except:
           #  print "Unable to find Bonus Question {0} information".format(bonusNum)
-        line["Grade"] = compiledGrade
+        if compiledGrade > maxGrade:
+          line["Grade"] = maxGrade
+        else:
+          line["Grade"] = compiledGrade
         line["Feedback comments"] = (compiledFeedback)
         csvWriter.writerow(line)
       csvOutputFile.close()
