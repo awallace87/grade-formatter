@@ -45,25 +45,29 @@ def scan_and_write():
           questionHeader = "[Question {0}]".format(num)
           questionComments = line["Question {0} Comments".format(num)]
           questionDeductions = line["Question {0} Deductions".format(num)]
-          if str(questionComments) != "":
-            compiledFeedback += questionHeader + " " + questionComments
-          if questionDeductions != "" and float(questionDeductions) < 0:
-            compiledGrade += float(questionDeductions)
-            if str(questionComments) == "":
-              compiledFeedback += questionHeader
-            compiledFeedback += "({0} Marks)\n".format(questionDeductions)
+          if str(questionComments) != "" or questionDeductions != "":
+            compiledFeedback += questionHeader
+            if str(questionComments) != "":
+              compiledFeedback += " " + questionComments	
+            if questionDeductions != "" and float(questionDeductions) < 0:
+              compiledGrade += float(questionDeductions)
+              compiledFeedback += " ({0} Marks)".format(questionDeductions)
+            compiledFeedback += "\n"				
           #except:
           #  print "Unable to find Question {0} information".format(num)
         for bonusNum in range(1, numOfBonus + 1):
           #try:
-          bonusQuestionHeader = " [Bonus Question {0}]".format(bonusNum)
+          bonusQuestionHeader = "[Bonus Question {0}]".format(bonusNum)
           bonusQuestionComments = line["Bonus {0} Comments".format(bonusNum)]
           bonusQuestionRewards = line["Bonus {0} Grades".format(bonusNum)]
-          if str(bonusQuestionComments) != "":
-            compiledFeedback += bonusQuestionHeader + " " + bonusQuestionComments
-          if bonusQuestionRewards != "" and float(bonusQuestionRewards) > 0:
-            compiledGrade += float(bonusQuestionRewards)
-            compiledFeedback += "(+{0} Marks)\n".format(bonusQuestionRewards)
+          if str(bonusQuestionComments) != "" or bonusQuestionRewards != "":
+            compiledFeedback += bonusQuestionHeader
+            if str(bonusQuestionComments) != "":
+              compiledFeedback += " " + bonusQuestionComments 
+            if bonusQuestionRewards != "" and float(bonusQuestionRewards) > 0:
+              compiledGrade += float(bonusQuestionRewards)
+              compiledFeedback += " (+{0} Marks)".format(bonusQuestionRewards)
+            compiledFeedback += "\n"      
           #except:
           #  print "Unable to find Bonus Question {0} information".format(bonusNum)
         if compiledGrade > maxGrade:
