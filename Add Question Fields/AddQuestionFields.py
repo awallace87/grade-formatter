@@ -32,6 +32,8 @@ else:
   for name in gradeCSVFiles:
     print "Analysing grade files"
     csvFileReader = csv.DictReader(open(name ,'rb'), delimiter=",")
+    csvFileReader.fieldnames.append("Overall Comments")
+    csvFileReader.fieldnames.append("Overall Deductions")
     print "Field Names Before: " + str(csvFileReader.fieldnames)
     for questionNum in range(1,numOfQuestions + 1):
       questionCommentString = "Question {0} Comments".format(questionNum)
